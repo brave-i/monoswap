@@ -1,0 +1,74 @@
+:host {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app-layout {
+  height: 100vh;
+}
+
+.menu-icon {
+  width: 30px;
+}
+
+.buy-astro {
+  margin-right: 1.5em;
+}
+
+.header-trigger {
+  height: 64px;
+  padding: 20px 24px;
+  padding-top: 0;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s, padding 0s;
+}
+
+nz-header {
+  padding: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+nz-content {
+  margin: 12px;
+}
+
+@media only screen and (max-width: 815px) {
+  nz-content {
+    margin-top: 40px !important;
+	margin: 0px !important;
+  }
+  .app-header {
+    height: 32px;
+  }
+}
+
+.metamask-icon {
+  width: 24px;
+  margin-right: 0.5em;
+  margin-bottom: 1px;
+}
+
+.tier {
+  color: rgb(108, 41, 167);
+}
+
+.dark-toogle {
+  margin: auto 2em auto 0;
+}
+
+.btn-metamask {
+  margin-right: 2.2em;
+}
+
+.zerion {
+  margin-left: 0.2em;
+}
+
+.saved-pairs {
+  padding-left: 24px !important;
+  font-size: 12px !important;
+  height: 15px;
+}

@@ -1,0 +1,267 @@
+/* You can add global styles to this file, and also import other style files */
+.mobile-connect {
+  display: none;
+}
+
+@media only screen and (max-width: 815px) {
+  .ant-layout-header {
+    position: fixed !important;
+  }
+  .inner-content {
+    padding: 65px 15px 15px 15px !important;
+  }
+  .buy-astro {
+    display: none !important;
+  }
+  .mobiletrade, .favorite2 {
+    display: block !important;
+	font-size: 11px !important;
+	height: 32px !important;
+	padding: 0px 6px !important;
+	margin-left: 4px !important;
+  }
+  .favorite,
+  .buy-btn,
+  .trade
+  {
+    display: none !important;
+  }
+  .dark-toogle {
+    display: none !important;
+  }
+  nz-select {
+    min-width: 280px !important;
+	width: 100% !important;
+  }
+  .mobile-connect {
+    display: block;
+    line-height: normal;
+    margin: 1em;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.tradehistory {
+  margin-right: 5px;
+  background-color: rgb(17, 20, 21) !important;
+  border-bottom: 0px;
+}
+
+.buy,
+.in {
+  color: #17c671;
+}
+
+.sell,
+.out {
+  color: #c4183c;
+}
+
+.flex-fill {
+  flex-grow: 1;
+}
+
+.filter-primary {
+  filter: invert(66%) sepia(18%) saturate(3610%) hue-rotate(240deg)
+    brightness(98%) contrast(98%);
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+}
+
+.menu-sidebar {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
+  overflow-y: scroll;
+}
+
+.menu-sidebar::-webkit-scrollbar {
+  width: 0px;
+}
+
+.version {
+  color: #c59de9;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.sidebar-logo {
+  position: relative;
+  height: 64px;
+  margin-left: 24px;
+  overflow: hidden;
+  line-height: 64px;
+  background: #001529;
+  transition: all 0.3s;
+  a {
+    small {
+      margin-left: 0.6em;
+    }
+  }
+}
+
+.sidebar-logo img {
+  display: inline-block;
+  height: 32px;
+  width: 32px;
+  vertical-align: middle;
+}
+
+.sidebar-logo h1 {
+  display: inline-block;
+  margin: 0 0 0 20px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+  vertical-align: middle;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  height: 64px;
+  padding: 0;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  .pair-search {
+    display: inline-block;
+  }
+}
+
+li {
+  &.saved-pairs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    i {
+      z-index: 99999;
+    }
+    .price-usd {
+      margin-right: 0.4em;
+    }
+    .percentage {
+      margin-right: 0.4em;
+    }
+    .remove {
+      margin-left: 0.4em;
+    }
+    .up {
+      color: greenyellow;
+    }
+    .down {
+      color: #ff0000;
+    }
+  }
+}
+
+.rugged {
+  background: #ff828233;
+}
+
+.dark-toggle {
+  color: white;
+}
+
+.dark-toogle {
+  /* Devlaring all variables */
+  --unchecked-color: #cccccc;
+  --checked-color: #6c29a7;
+  --shadow: 0 6px 12px 0px #757575;
+  --toogle-width: 55px;
+  --circle-size: 30px;
+
+  position: relative;
+  width: var(--toogle-width);
+  user-select: none;
+}
+
+.toogle-check {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dark-label {
+  display: block;
+  cursor: pointer;
+  height: 20px;
+  padding: 0;
+  line-height: 20px;
+  border-radius: 30px;
+  transition: 0.5s ease-out;
+}
+
+.dark-label:before {
+  content: "";
+  display: block;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  margin: -5px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 50%;
+  transition: 0.5s ease-out;
+  background-size: contain;
+}
+
+.toogle-check:not(:checked) + .dark-label {
+  background-color: var(--unchecked-color);
+}
+
+.toogle-check:not(:checked) + .dark-label:before {
+  right: 30px;
+  background-image: url("https://i.ibb.co/sHfZHb4/sun.webp");
+  box-shadow: var(--shadow);
+}
+
+.toogle-check:checked + .dark-label {
+  background-color: var(--checked-color);
+}
+
+.toogle-check:checked + .dark-label:before {
+  right: 0px;
+  background-image: url("https://i.ibb.co/G5gJtp5/moon.webp");
+  box-shadow: var(--shadow);
+}
+
+/**/
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #06488a;
+}
+
+.toogle-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10% 15%;
+  background-color: #15082d;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
+}
+
+// Fixing iOS
+nz-select div.ant-select-search.ant-select-search--inline {
+  display: block !important;
+}

@@ -1,0 +1,26 @@
+<nz-select
+  nzShowSearch
+  nzServerSearch
+  nzPlaceHolder="Enter pair id or token name/id/symbol"
+  [(ngModel)]="selectedValue"
+  [nzShowArrow]="false"
+  [nzAllowClear]="true"
+  [nzFilterOption]="nzFilterOption"
+  (nzOnSearch)="search($event)"
+  (ngModelChange)="searchSelected()"
+  (nzBlur)="onBlur()"
+>
+  <ng-container *ngIf="isSearching">
+    <nz-option nzDisabled nzCustomContent>
+      <i nz-icon nzType="loading" class="loading-icon"></i> Loading Data...
+    </nz-option>
+  </ng-container>
+  <ng-container *ngIf="!isSearching">
+    <nz-option
+      *ngFor="let o of listOfOption"
+      [nzLabel]="o.text"
+      [nzValue]="o.value"
+    >
+    </nz-option>
+  </ng-container>
+</nz-select>

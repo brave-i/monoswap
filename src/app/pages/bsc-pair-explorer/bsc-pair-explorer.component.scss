@@ -1,0 +1,62 @@
+#header {
+  display: flex;
+
+  app-token-info {
+    margin-right: 28px;
+  }
+
+  .time-inerval {
+    width: 72px;
+    margin-right: 0.8em;
+  }
+
+  #chart-header {
+    display: flex;
+    margin-bottom: 1em;
+
+    .chart-options {
+      margin-right: 0.8em;
+      display: flex;
+      align-items: baseline;
+    }
+
+    .price-options {
+      display: flex;
+    }
+
+    .my-entry,
+    .price-alert {
+      margin-right: 0.8em;
+      display: flex;
+      align-items: baseline;
+      a {
+        margin-right: 0.8em;
+      }
+      label {
+        width: 70px;
+      }
+      input {
+        width: 120px;
+        margin-right: 0.8em;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #header,
+  .chart-options,
+  .price-options {
+    flex-direction: column;
+  }
+  .price-options {
+    .price-alert {
+      margin-top: 0.5em;
+    }
+  }
+  .chart-options {
+    .ant-btn {
+      margin-top: 0.5em;
+    }
+  }
+}

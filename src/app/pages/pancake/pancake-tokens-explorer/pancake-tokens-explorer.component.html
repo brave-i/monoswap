@@ -1,0 +1,164 @@
+<div>
+  <h1>
+    <a href="https://pancakeswap.info/" target="_blank">
+      <img class="pancake-logo" src="/assets/images/pancake.png" />
+    </a>
+  </h1>
+  <form nz-form>
+    <div nz-row [nzGutter]="2">
+      <div nz-col [nzSpan]="5">
+        <nz-form-item>
+          <nz-form-label nzNoColon [nzSpan]="0" nzFor="volume">
+            Volume $ >=
+          </nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-input-number
+              [(ngModel)]="options.minVolume"
+              name="volume"
+              [nzMin]="1"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="5">
+        <nz-form-item>
+          <nz-form-label nzNoColon [nzSpan]="0" nzFor="liquidity"
+            >Liquidity $ >=
+          </nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-input-number
+              [(ngModel)]="options.minLiquidity"
+              name="liquidity"
+              [nzMin]="1"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="5">
+        <nz-form-item>
+          <nz-form-label nzNoColon [nzSpan]="0" nzFor="count">
+            Tx Count >=
+          </nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-input-number
+              [(ngModel)]="options.minTxCount"
+              name="count"
+              [nzMin]="1"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="5">
+        <nz-form-item>
+          <nz-form-label nzNoColon [nzSpan]="0" nzFor="age">
+            Pool Age (days)
+          </nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-input-number
+              [(ngModel)]="options.minDaysOld"
+              name="age"
+              [nzMin]="1"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="4">
+        <button nz-button nzType="primary" (click)="search()">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<nz-table
+  #filterTable
+  [nzData]="pairs"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzPageSize]="50"
+>
+  <thead>
+    <tr>
+      <th
+        [nzSortOrder]="listOfColumns[0].sortOrder"
+        [nzSortFn]="listOfColumns[0].sortFn"
+        [nzSortDirections]="listOfColumns[0].sortDirections"
+        [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+        [nzFilters]="listOfColumns[0].listOfFilter"
+        [nzFilterFn]="listOfColumns[0].filterFn"
+      >
+        {{ listOfColumns[0].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter"
+        [nzFilterFn]="listOfColumns[1].filterFn"
+      >
+        {{ listOfColumns[1].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[2].sortOrder"
+        [nzSortFn]="listOfColumns[2].sortFn"
+        [nzSortDirections]="listOfColumns[2].sortDirections"
+        [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+        [nzFilters]="listOfColumns[2].listOfFilter"
+        [nzFilterFn]="listOfColumns[2].filterFn"
+      >
+        {{ listOfColumns[2].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[3].sortOrder"
+        [nzSortFn]="listOfColumns[3].sortFn"
+        [nzSortDirections]="listOfColumns[3].sortDirections"
+        [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+        [nzFilters]="listOfColumns[3].listOfFilter"
+        [nzFilterFn]="listOfColumns[3].filterFn"
+      >
+        {{ listOfColumns[3].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[4].sortOrder"
+        [nzSortFn]="listOfColumns[4].sortFn"
+        [nzSortDirections]="listOfColumns[4].sortDirections"
+        [nzFilterMultiple]="listOfColumns[4].filterMultiple"
+        [nzFilters]="listOfColumns[4].listOfFilter"
+        [nzFilterFn]="listOfColumns[4].filterFn"
+      >
+        {{ listOfColumns[4].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[5].sortOrder"
+        [nzSortFn]="listOfColumns[5].sortFn"
+        [nzSortDirections]="listOfColumns[5].sortDirections"
+        [nzFilterMultiple]="listOfColumns[5].filterMultiple"
+        [nzFilters]="listOfColumns[5].listOfFilter"
+        [nzFilterFn]="listOfColumns[5].filterFn"
+        nzCustomFilter
+      >
+        {{ listOfColumns[5].name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data; trackBy: identify">
+      <td>
+        <a [routerLink]="'/pancake-pair-explorer/' + data.id" target="_blank">
+          {{ data.symbol }}
+        </a>
+      </td>
+      <td>{{ data.reserveUSD | number: "1.0-0" }}</td>
+      <td>{{ data.volumeUSD | number: "1.0-0" }}</td>
+      <td>{{ data.dailyVolume | number: "1.0-0" }}</td>
+      <td>{{ data.txCount | number: "1.0-0" }}</td>
+      <td>
+        {{ data.daysOld | number: "1.0-2" }}
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

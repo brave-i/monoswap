@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "astrotools-b5f44",
+    "staging": "astrotools-dev"
+  },
+  "targets": {
+    "astrotools-b5f44": {
+      "hosting": {
+        "astrotools-dev": [
+          "astrotools-dev"
+        ],
+        "astrotools-b5f44": [
+          "astrotools-b5f44"
+        ]
+      }
+    }
+  }
+}

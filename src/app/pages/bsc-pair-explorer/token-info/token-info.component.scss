@@ -1,0 +1,57 @@
+:host {
+  min-width: 210px;
+  max-width: 240px;
+}
+p {
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.priceUSD {
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 1.3em;
+}
+
+.priceETH {
+  margin-bottom: 0.5em;
+}
+
+div {
+  &.symbol {
+    font-weight: 500;
+    font-size: 1.5em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    .etherscan,
+    .coingecko,
+    .logo,
+    .name {
+      margin-right: 0.2em;
+    }
+    .title-header {
+      display: flex;
+      align-items: center;
+    }
+    .icons-list {
+      img {
+        vertical-align: baseline;
+      }
+    }
+  }
+}
+
+a {
+  &.trade {
+    margin-right: 0.5em;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  p {
+    justify-content: initial;
+  }
+}

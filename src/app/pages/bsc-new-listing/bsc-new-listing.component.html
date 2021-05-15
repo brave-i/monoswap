@@ -1,0 +1,175 @@
+<nz-table
+  #filterTable
+  [nzData]="newTokens$ | async"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzPageSize]="50"
+>
+  <thead>
+    <tr>
+      <th
+        [nzSortOrder]="listOfColumns[0].sortOrder"
+        [nzSortFn]="listOfColumns[0].sortFn"
+        [nzSortDirections]="listOfColumns[0].sortDirections"
+        [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+        [nzFilters]="listOfColumns[0].listOfFilter"
+        [nzFilterFn]="listOfColumns[0].filterFn"
+      >
+        {{ listOfColumns[0].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter"
+        [nzFilterFn]="listOfColumns[1].filterFn"
+      >
+        {{ listOfColumns[1].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[2].sortOrder"
+        [nzSortFn]="listOfColumns[2].sortFn"
+        [nzSortDirections]="listOfColumns[2].sortDirections"
+        [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+        [nzFilters]="listOfColumns[2].listOfFilter"
+        [nzFilterFn]="listOfColumns[2].filterFn"
+      >
+        {{ listOfColumns[2].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[3].sortOrder"
+        [nzSortFn]="listOfColumns[3].sortFn"
+        [nzSortDirections]="listOfColumns[3].sortDirections"
+        [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+        [nzFilters]="listOfColumns[3].listOfFilter"
+        [nzFilterFn]="listOfColumns[3].filterFn"
+      >
+        {{ listOfColumns[3].name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data; trackBy: identify">
+      <td>
+        {{ data.creationDate | amTimeAgo }}
+      </td>
+      <td>
+        <a
+          class="actions"
+          [href]="'https://bscscan.com/token/' + data.tokenId"
+          target="_blank"
+        >
+          {{ data.tokenName }}
+        </a>
+      </td>
+      <td>
+        {{
+          data.oldHolders && data.oldHolders !== data.holders
+            ? (data.oldHolders | number: "1.0-0") + " → "
+            : ""
+        }}
+        {{ data.holders | number: "1.0-0" }}
+      </td>
+      <td>
+        <a
+          *ngIf="data.officialSite"
+          class="coingecko"
+          [href]="sanitizer.bypassSecurityTrustUrl(data.officialSite)"
+          target="_blank"
+        >
+          <img
+            src="/assets/images/web.png"
+            alt="homepage link"
+            width="20"
+            height="20"
+        /></a>
+        <ng-container *ngFor="let link of data.linksSocial">
+          <a
+            *ngIf="link.type === 'Twitter'"
+            class="coingecko"
+            [href]="sanitizer.bypassSecurityTrustUrl(link.link)"
+            target="_blank"
+          >
+            <img
+              src="/assets/images/twitter.webp"
+              alt="twitter link"
+              width="20"
+              height="20"
+              nz-tooltip
+              nzTooltipTitle="Twitter"
+          /></a>
+
+          <a
+            *ngIf="link.type === 'Discord'"
+            class="coingecko"
+            [href]="sanitizer.bypassSecurityTrustUrl(link.link)"
+            target="_blank"
+          >
+            <img
+              src="/assets/images/discord.png"
+              alt="discord link"
+              width="20"
+              height="20"
+          /></a>
+          <a
+            *ngIf="link.type === 'Telegram'"
+            class="coingecko"
+            [href]="sanitizer.bypassSecurityTrustUrl(link.link)"
+            target="_blank"
+            nz-tooltip
+            nzTooltipTitle="Telegram"
+          >
+            <img
+              src="/assets/images/telegram.png"
+              alt="telegram link"
+              width="20"
+              height="20"
+          /></a>
+          <a
+            *ngIf="link.type === 'CoinGecko'"
+            class="coingecko"
+            [href]="formatLinkCG(link.link, 'CG')"
+            target="_blank"
+            nz-tooltip
+            nzTooltipTitle="CoinGecko"
+          >
+            <img
+              src="/assets/images/coingecko.png"
+              alt="coingecko link"
+              width="20"
+              height="20"
+          /></a>
+          <a
+            *ngIf="link.type === 'CoinMarketCap'"
+            class="coingecko"
+            [href]="formatLinkCG(link.link, 'CMC')"
+            target="_blank"
+            nz-tooltip
+            nzTooltipTitle="CoinMarketCap"
+          >
+            <img
+              src="/assets/images/web.png"
+              alt="coingecko link"
+              width="20"
+              height="20"
+          /></a>
+          <a
+            *ngIf="link.type === 'Github'"
+            class="coingecko"
+            [href]="sanitizer.bypassSecurityTrustUrl(link.link)"
+            target="_blank"
+            nz-tooltip
+            nzTooltipTitle="GitHub"
+          >
+            <img
+              src="/assets/images/github.png"
+              alt="coingecko link"
+              width="20"
+              height="20"
+          /></a>
+        </ng-container>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

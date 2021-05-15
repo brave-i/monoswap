@@ -1,0 +1,364 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    class="menu-sidebar"
+    nzCollapsible
+    nzWidth="220px"
+    nzCollapsedWidth="0"
+    nzBreakpoint="lg"
+    [(nzCollapsed)]="tokenService.isCollapsed"
+    [nzTrigger]="null"
+    nzTheme="dark"
+  >
+    <div class="sidebar-logo">
+      <a href="https://app.astrotools.io/">
+        <img src="assets/images/AT_logo.png" alt="logo" />
+        <h1>AstroTools</h1>
+        <small class="version">V1.0.5</small>
+      </a>
+    </div>
+
+    <div class="mobile-connect">
+      <button
+        *ngIf="!this.etherService.connectedAddress"
+        nz-button
+        nzType="primary"
+        class="btn-metamask"
+        (click)="walletConnect()"
+      >
+        <img
+          src="/assets/images/walletconnect.png"
+          class="menu-icon metamask-icon"
+        />
+        WalletConnect
+      </button>
+      <button
+        *ngIf="
+          this.etherService.connectedAddress &&
+          this.etherService.connector &&
+          this.etherService.connector.connected
+        "
+        nz-button
+        nzType="primary"
+        class="btn-metamask"
+        (click)="etherService.disconnectWalletConnect()"
+      >
+        <img
+          src="/assets/images/walletconnect.png"
+          class="menu-icon metamask-icon"
+        />
+        Disconnect
+      </button>
+    </div>
+
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="tokenService.isCollapsed"
+    >
+      <li nz-submenu nzOpen nzTitle="Dashboard ERC-20" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/pair-explorer/0x7df4a1d4a8d8390bef36f311252423cce04e5647"
+            >
+              Pair Explorer
+            </a>
+          </li>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            [nzDisabled]="!etherService.hasTier3Access"
+          >
+            <a routerLink="/tokens-explorer">Tokens Explorer</a>
+          </li>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            [nzDisabled]="!etherService.hasTier3Access"
+          >
+            <a routerLink="/whale-alert">Whale Watcher</a>
+          </li>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            [nzDisabled]="
+              !etherService.hasTier2Access && !etherService.hasTier3Access
+            "
+          >
+            <a routerLink="/new-listing">New Listings</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/trending-pairs">Trending pairs</a>
+          </li>
+          <li
+            nz-menu-item
+            nzMatchRouter
+            [nzDisabled]="!etherService.hasTier3Access"
+          >
+            <a routerLink="/account-watcher">Account Scanner</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Dashboard Pancake" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a
+              routerLink="/pancake-pair-explorer/0xa527a61703d82139f8a06bc30097cc9caa2df5a6"
+              >Pair Explorer</a
+            >
+          </li>
+          <!-- <li nz-menu-item nzMatchRouter>
+            <a routerLink="/pancake-tokens-explorer">Tokens Explorer</a>
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/new-listing-pancake">New Listings</a>
+          </li> -->
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="/trending-pairs-pancake">Trending pairs</a>
+          </li>
+        </ul>
+      </li>
+      <li
+        *ngIf="saved$ | async as savedPairs"
+        nz-submenu
+        nzOpen="false"
+        nzTitle="Favorites"
+        nzIcon="heart"
+        class="favorites"
+      >
+        <ul>
+          <li
+            class="saved-pairs"
+            nz-menu-item
+            nzMatchRouter
+            *ngFor="let fav of savedPairs"
+          >
+            <a [routerLink]="'/pair-explorer/' + fav.id">
+              {{ fav.symbol }}
+            </a>
+            <span class="flex-fill"></span>
+            <span class="price-usd">
+              {{ fav.priceUSD | currency: "USD":"symbol":"1.2-4" }}
+            </span>
+            <span
+              *ngIf="fav.percentage"
+              class="percentage"
+              [class]="fav.percentage > 0 ? 'up' : 'down'"
+            >
+              {{ fav.percentage }}%
+            </span>
+            <!-- <i
+              nz-icon
+              nzType="close-circle"
+              nzTheme="outline"
+              class="remove"
+              (click)="removePair($event, fav)"
+            ></i> -->
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span
+          class="header-trigger"
+          (click)="!(tokenService.isCollapsed = !tokenService.isCollapsed)"
+        >
+          <i
+            class="trigger"
+            nz-icon
+            [nzType]="tokenService.isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></i>
+        </span>
+        <div class="pair-search">
+          <app-pair-search></app-pair-search>
+        </div>
+        <span class="flex-fill"></span>
+        <div class="buy-astro">
+          <button
+            *ngIf="!this.etherService.connectedAddress"
+            nz-button
+            nzType="primary"
+            class="btn-metamask"
+            (click)="connect()"
+          >
+            <img
+              src="/assets/images/metamask.png"
+              class="menu-icon metamask-icon"
+            />
+            Connect Metamask
+          </button>
+          <button
+            *ngIf="!this.etherService.connectedAddress"
+            nz-button
+            nzType="primary"
+            class="btn-metamask"
+            (click)="walletConnect()"
+          >
+            <img
+              src="/assets/images/walletconnect.png"
+              class="menu-icon metamask-icon"
+            />
+            WalletConnect
+          </button>
+          <button
+            *ngIf="
+              this.etherService.connectedAddress &&
+              this.etherService.connector &&
+              this.etherService.connector.connected
+            "
+            nz-button
+            nzType="primary"
+            class="btn-metamask"
+            (click)="etherService.disconnectWalletConnect()"
+          >
+            <img
+              src="/assets/images/walletconnect.png"
+              class="menu-icon metamask-icon"
+            />
+            Disconnect
+          </button>
+          <!-- <span *ngIf="this.etherService.connectedAddress">
+            Connected as: ...{{
+              this.etherService.connectedAddress.substr(
+                this.etherService.connectedAddress.length - 6
+              )
+            }}
+          </span> -->
+          <nz-tag
+            [nzColor]="'#6c29a7'"
+            *ngIf="this.etherService.astroTier4; else bit32"
+          >
+            64-bit
+          </nz-tag>
+          <ng-template #bit32>
+            <nz-tag
+              [nzColor]="'#6c29a7'"
+              *ngIf="this.etherService.astroTier3; else bit16"
+            >
+              32-bit
+            </nz-tag>
+          </ng-template>
+          <ng-template #bit16>
+            <nz-tag
+              [nzColor]="'#6c29a7'"
+              *ngIf="this.etherService.astroTier2; else bit8"
+            >
+              16-bit
+            </nz-tag>
+          </ng-template>
+          <ng-template #bit8>
+            <nz-tag
+              [nzColor]="'#6c29a7'"
+              *ngIf="this.etherService.noAstro || this.etherService.astroTier1"
+            >
+              8-bit
+            </nz-tag>
+          </ng-template>
+          <span *ngIf="this.etherService.connectedAddress">
+            You have
+            {{ this.etherService.astroAmount | number: "1.0-0" }} ASTRO
+          </span>
+          <span
+            *ngIf="
+              this.etherService.connectedAddress &&
+              this.etherService.secondTokenAmount > 0
+            "
+          >
+            and
+            {{ this.etherService.secondTokenAmount | number: "1.0-2" }} CORE
+          </span>
+
+          <a
+            *ngIf="etherService.account"
+            class="zerion"
+            (click)="openMyZerion()"
+            target="_blank"
+          >
+            <img
+              src="/assets/images/zerion.png"
+              alt="Zerion link"
+              [class]="'light'"
+              width="20"
+              height="20"
+          /></a>
+        </div>
+        <div class="buy-astro">
+          <a [href]="getBuyUrl" target="_blank" nz-button nzType="primary">
+            {{
+              this.etherService.astroTier4
+                ? "BUY MORE"
+                : this.etherService.astroTier3
+                ? "UPGRADE TO 64-bit"
+                : this.etherService.astroTier2
+                ? "UPGRADE TO 32-bit"
+                : "UPGRADE TO 16-bit"
+            }}
+          </a>
+        </div>
+        <div class="dark-toogle">
+          <input
+            type="checkbox"
+            class="toogle-check"
+            id="dark_mode"
+            [checked]="this.localStorage.isDarkMode$ | async"
+            (change)="toggleDarkMode()"
+          />
+          <label class="dark-label" for="dark_mode"></label>
+        </div>
+        <!-- <ul nz-menu nzTheme="light" nzMode="horizontal">
+          <li nz-menu-item>
+            <a href="https://twitter.com/Astro_Tools" target="_blank">
+              <img
+                src="/assets/images/twitter.svg"
+                class="menu-icon filter-primary"
+              />
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a href="https://t.me/astrotoolspublic" target="_blank">
+              <img
+                src="/assets/images/telegram.svg"
+                class="menu-icon filter-primary"
+              />
+            </a>
+          </li>
+          <li nz-menu-item>
+            <a href="https://discord.com/invite/Sg39bBU" target="_blank">
+              <img
+                src="/assets/images/discord.svg"
+                class="menu-icon filter-primary"
+              />
+            </a>
+          </li>
+          <li>
+          </li>
+        </ul> -->
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<audio
+  id="notification-up"
+  src="/assets/sounds/smb_up.wav"
+  preload="auto"
+></audio>
+<audio
+  id="notification-down"
+  src="/assets/sounds/smb_down.wav"
+  preload="auto"
+></audio>
+<audio
+  id="new-listing"
+  src="/assets/sounds/zelda_-_secret.mp3"
+  preload="auto"
+></audio>

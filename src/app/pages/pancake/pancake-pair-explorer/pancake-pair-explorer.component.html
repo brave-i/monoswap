@@ -1,0 +1,242 @@
+<!-- <nz-alert
+  nzType="warning"
+  nzCloseable
+  nzMessage="The PancakeSwap API is currently delayed in syncing to Binance Smart Chain. Please trade with caution."
+>
+</nz-alert> -->
+
+<section id="header" [style.display]="'flex'">
+  <app-token-info
+    *ngIf="pairInfo && pairInfo.id"
+    [pairInfo]="pairInfo"
+    [dailyVolume]="dailyVolume"
+    [ethPrice]="ethPrice"
+    [geckoInfo]="geckoInfo"
+  ></app-token-info>
+
+  <div id="chart-right">
+    <!--<div id="chart-header">
+      <section class="chart-options">
+        <nz-select
+          class="time-inerval"
+          [(ngModel)]="timeInterval"
+          (ngModelChange)="timeChanged()"
+        >
+          <nz-option [nzValue]="1" nzLabel="1m"></nz-option>
+          <nz-option [nzValue]="3" nzLabel="3m"></nz-option>
+          <nz-option [nzValue]="5" nzLabel="5m"></nz-option>
+          <nz-option [nzValue]="10" nzLabel="10m"></nz-option>
+          <nz-option [nzValue]="15" nzLabel="15m"></nz-option>
+          <nz-option [nzValue]="30" nzLabel="30m"></nz-option>
+          <nz-option [nzValue]="60" nzLabel="1h"></nz-option>
+          <nz-option [nzValue]="240" nzLabel="4h"></nz-option>
+          <nz-option [nzValue]="720" nzLabel="12h"></nz-option>
+        </nz-select>
+        <a
+          nz-button
+          nzType="primary"
+          [nzLoading]="fetchMoreIsLoading"
+          (click)="fetchMoreQuery()"
+        >
+          More Candles
+        </a>
+      </section>
+      <section class="price-options" *ngIf="currentFav">
+        <div class="my-entry">
+          <label>My Entry: </label>
+          <input
+            nz-input
+            placeholder="price"
+            [(ngModel)]="currentFav.myEntry"
+          />
+          <a nz-button nzType="primary" (click)="saveMyEntry()">Set My Entry</a>
+        </div>
+        <div class="price-alert">
+          <label>Price Alert: </label>
+          <input
+            nz-input
+            placeholder="Price alert"
+            [value]="currentFav.priceUSD ? currentFav.priceUSD.toFixed(6) : 0"
+            #pAlert
+          />
+          <a nz-button nzType="primary" (click)="savePriceAlert(pAlert.value)">
+            Save
+          </a>
+          <div class="alerts">
+            <span *ngIf="currentFav.higherSavedPrice">
+              <label>Alert >= </label>${{ currentFav.higherSavedPrice }}
+            </span>
+            <span *ngIf="currentFav.lowerSavedPrice">
+              <label> Alert <= </label>${{ currentFav.lowerSavedPrice }}
+            </span>
+          </div>
+        </div>
+      </section>
+    </div> -->
+    <app-tv-chart
+      *ngIf="isInitiated"
+      [datafeed]="datafeed"
+      [interval]="'15'"
+    ></app-tv-chart>
+  </div>
+</section>
+<!-- <button nz-button nzType="primary" class="tradehistory">Trade History</button> -->
+
+<nz-table
+  *ngIf="listOfColumns && listOfColumns.length"
+  #filterTable
+  [nzData]="listOfDisplayData"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzLoading]="!listOfDisplayData || listOfDisplayData.length === 0"
+  [nzPageSize]="50"
+>
+  <thead>
+    <tr>
+      <th
+        [nzSortOrder]="listOfColumns[0].sortOrder"
+        [nzSortFn]="listOfColumns[0].sortFn"
+        [nzSortDirections]="listOfColumns[0].sortDirections"
+        [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+        [nzFilters]="listOfColumns[0].listOfFilter"
+        [nzFilterFn]="listOfColumns[0].filterFn"
+      >
+        {{ listOfColumns[0].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter"
+        [nzFilterFn]="listOfColumns[1].filterFn"
+      >
+        {{ listOfColumns[1].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[2].sortOrder"
+        [nzSortFn]="listOfColumns[2].sortFn"
+        [nzSortDirections]="listOfColumns[2].sortDirections"
+        [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+        [nzFilters]="listOfColumns[2].listOfFilter"
+        [nzFilterFn]="listOfColumns[2].filterFn"
+      >
+        {{ listOfColumns[2].name }}
+      </th>
+      <!-- <th
+        [nzSortOrder]="listOfColumns[3].sortOrder"
+        [nzSortFn]="listOfColumns[3].sortFn"
+        [nzSortDirections]="listOfColumns[3].sortDirections"
+        [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+        [nzFilters]="listOfColumns[3].listOfFilter"
+        [nzFilterFn]="listOfColumns[3].filterFn"
+      >
+        {{ listOfColumns[3].name }}
+      </th> -->
+      <th
+        [nzSortOrder]="listOfColumns[4].sortOrder"
+        [nzSortFn]="listOfColumns[4].sortFn"
+        [nzSortDirections]="listOfColumns[4].sortDirections"
+        [nzFilterMultiple]="listOfColumns[4].filterMultiple"
+        [nzFilters]="listOfColumns[4].listOfFilter"
+        [nzFilterFn]="listOfColumns[4].filterFn"
+      >
+        {{ listOfColumns[4].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[5].sortOrder"
+        [nzSortFn]="listOfColumns[5].sortFn"
+        [nzSortDirections]="listOfColumns[5].sortDirections"
+        [nzFilterMultiple]="listOfColumns[5].filterMultiple"
+        [nzFilters]="listOfColumns[5].listOfFilter"
+        [nzFilterFn]="listOfColumns[5].filterFn"
+        nzCustomFilter
+      >
+        {{ listOfColumns[5].name }}
+        <!-- <nz-filter-trigger
+          [(nzVisible)]="visible"
+          [nzActive]="searchValue > 0"
+          [nzDropdownMenu]="menu"
+        >
+          <i nz-icon nzType="search"></i>
+        </nz-filter-trigger> -->
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[6].sortOrder"
+        [nzSortFn]="listOfColumns[6].sortFn"
+        [nzSortDirections]="listOfColumns[6].sortDirections"
+        [nzFilterMultiple]="listOfColumns[6].filterMultiple"
+        [nzFilters]="listOfColumns[6].listOfFilter"
+        [nzFilterFn]="listOfColumns[6].filterFn"
+      >
+        {{ listOfColumns[6].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[7].sortOrder"
+        [nzSortFn]="listOfColumns[7].sortFn"
+        [nzSortDirections]="listOfColumns[7].sortDirections"
+        [nzFilterMultiple]="listOfColumns[7].filterMultiple"
+        [nzFilters]="listOfColumns[7].listOfFilter"
+        [nzFilterFn]="listOfColumns[7].filterFn"
+      >
+        {{ listOfColumns[7].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[8].sortOrder"
+        [nzSortFn]="listOfColumns[8].sortFn"
+        [nzSortDirections]="listOfColumns[8].sortDirections"
+        [nzFilterMultiple]="listOfColumns[8].filterMultiple"
+        [nzFilters]="listOfColumns[8].listOfFilter"
+        [nzFilterFn]="listOfColumns[8].filterFn"
+      >
+        {{ listOfColumns[8].name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data; trackBy: identify">
+      <td>{{ data.date | date: "yy-MM-dd H:mm:ss" }}</td>
+      <td [class]="data.type">{{ data.type }}</td>
+      <td>{{ data.priceUSD | currency: "USD":"symbol":"1.2-8" }}</td>
+      <!-- <td>{{ data.priceETH | number: "1.2-8" }}</td> -->
+      <td>{{ data.amountToken | number: "1.2-4" }}</td>
+      <td>{{ data.amountEth | number: "1.2-2" }}</td>
+      <td>{{ data.amountInUsd | number: "1.2-2" }}</td>
+      <td nzEllipsis>
+        <a
+          [href]="'https://bscscan.com/address/' + data.makerId"
+          target="_blank"
+        >
+          {{ data.makerId }}
+        </a>
+      </td>
+      <td>
+        <a [href]="'https://bscscan.com/tx/' + data.txId" target="_blank">
+          Tx
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<!-- <nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input
+        type="text"
+        nz-input
+        placeholder="Search name"
+        [(ngModel)]="searchValue"
+      />
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        (click)="search()"
+        class="search-button"
+      >
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="reset()">Reset</button>
+    </div>
+  </div>
+</nz-dropdown-menu> -->

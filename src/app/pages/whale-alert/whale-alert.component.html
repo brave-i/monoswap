@@ -1,0 +1,177 @@
+<div>
+  <form nz-form>
+    <div nz-row class="filer-row">
+      <div nz-col>
+        <nz-form-item>
+          <nz-form-label nzNoColon [nzSpan]="0" nzFor="volume">
+            Min $ 
+          </nz-form-label>
+          <nz-form-control>
+            <nz-input-number
+              [(ngModel)]="whaleService.whalesDefaultVar.minAmountUSD"
+              name="min USD amount"
+              (ngModelChange)="refetchWithNewVar()"
+              [nzMin]="1000"
+              [nzStep]="1"
+            ></nz-input-number>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col class="filter-items">
+        <nz-form-item>
+          <input
+            type="text"
+            nz-input
+            name="searchToken"
+            placeholder="Filter by Token Name"
+            [(ngModel)]="searchToken"
+          />
+        </nz-form-item>
+      </div>
+      <div nz-col class="filter-items">
+        <nz-form-item>
+          <button
+            nz-button
+            nzSize="small"
+            nzType="primary"
+            (click)="searchTokenFn()"
+            class="search-button"
+          >
+            Filter
+          </button>
+        </nz-form-item>
+      </div>
+      <div nz-col class="filter-items">
+        <nz-form-item>
+          <button nz-button nzSize="small" (click)="resetTokenSearch()">
+            Reset
+          </button>
+        </nz-form-item>
+      </div>
+    </div>
+  </form>
+</div>
+
+<nz-table
+  #filterTable
+  [nzData]="swaps"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzPageSize]="50"
+>
+  <thead>
+    <tr>
+      <th
+        [nzSortOrder]="listOfColumns[0].sortOrder"
+        [nzSortFn]="listOfColumns[0].sortFn"
+        [nzSortDirections]="listOfColumns[0].sortDirections"
+        [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+        [nzFilters]="listOfColumns[0].listOfFilter"
+        [nzFilterFn]="listOfColumns[0].filterFn"
+      >
+        {{ listOfColumns[0].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        nzCustomFilter
+      >
+        {{ listOfColumns[1].name }}
+        <nz-filter-trigger
+          [(nzVisible)]="tokenFilterVisible"
+          [nzActive]="searchToken.length > 0"
+          [nzDropdownMenu]="menu"
+        >
+          <i nz-icon nzType="search"></i>
+        </nz-filter-trigger>
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[2].sortOrder"
+        [nzSortFn]="listOfColumns[2].sortFn"
+        [nzSortDirections]="listOfColumns[2].sortDirections"
+        [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+        [nzFilters]="listOfColumns[2].listOfFilter"
+        [nzFilterFn]="listOfColumns[2].filterFn"
+      >
+        {{ listOfColumns[2].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[3].sortOrder"
+        [nzSortFn]="listOfColumns[3].sortFn"
+        [nzSortDirections]="listOfColumns[3].sortDirections"
+        [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+        [nzFilters]="listOfColumns[3].listOfFilter"
+        [nzFilterFn]="listOfColumns[3].filterFn"
+      >
+        {{ listOfColumns[3].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[4].sortOrder"
+        [nzSortFn]="listOfColumns[4].sortFn"
+        [nzSortDirections]="listOfColumns[4].sortDirections"
+        [nzFilterMultiple]="listOfColumns[4].filterMultiple"
+        [nzFilters]="listOfColumns[4].listOfFilter"
+        [nzFilterFn]="listOfColumns[4].filterFn"
+      >
+        {{ listOfColumns[4].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[5].sortOrder"
+        [nzSortFn]="listOfColumns[5].sortFn"
+        [nzSortDirections]="listOfColumns[5].sortDirections"
+        [nzFilterMultiple]="listOfColumns[5].filterMultiple"
+        [nzFilters]="listOfColumns[5].listOfFilter"
+        [nzFilterFn]="listOfColumns[5].filterFn"
+        nzCustomFilter
+      >
+        {{ listOfColumns[5].name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data; trackBy: identify">
+      <td>{{ formatDate(data.timestamp) | date: "yy-MM-dd H:mm:ss" }}</td>
+      <td>{{ data.symbol }}</td>
+      <td [class]="data.type">{{ data.type }}</td>
+      <td>{{ data.amountUSD | currency: "USD":"symbol":"1.0-0" }}</td>
+      <td>{{ data.amountEth | number: "1.2-2" }}</td>
+      <td>
+        <a
+          [href]="'https://etherscan.io/tx/' + data.transaction.id"
+          target="_blank"
+        >
+          Tx
+        </a>
+        |
+        <a [routerLink]="'/pair-explorer/' + data.pair.id" target="_blank">
+          Pair
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <div class="ant-table-filter-dropdown">
+    <div class="search-box">
+      <input
+        type="text"
+        nz-input
+        placeholder="Filter token"
+        [(ngModel)]="searchToken"
+      />
+      <button
+        nz-button
+        nzSize="small"
+        nzType="primary"
+        (click)="searchTokenFn()"
+        class="search-button"
+      >
+        Search
+      </button>
+      <button nz-button nzSize="small" (click)="resetTokenSearch()">
+        Reset
+      </button>
+    </div>
+  </div>
+</nz-dropdown-menu>

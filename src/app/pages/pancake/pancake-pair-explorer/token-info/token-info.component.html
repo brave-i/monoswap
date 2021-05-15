@@ -1,0 +1,190 @@
+<a
+  nz-button
+  nzType="primary"
+  class="trade"
+  nzDanger
+  [href]="
+    'https://exchange.pancakeswap.finance/#/swap?outputCurrency=' +
+    pairInfo.tokenId +
+    '&inputCurrency=BNB'
+  "
+  target="_blank"
+>
+  Trade
+</a>
+<!-- <a
+  *ngIf="!(isPairSaved$ | async)"
+  nz-button
+  nzType="primary"
+  (click)="savePair()"
+>
+  Favorite
+</a>
+<a
+  *ngIf="isPairSaved$ | async"
+  nz-button
+  nzType="primary"
+  (click)="removePair()"
+>
+  Remove
+</a> -->
+
+<div class="symbol">
+  <div class="title-header">
+    <img
+      *ngIf="this.geckoInfo"
+      [src]="this.geckoInfo.logoUrl"
+      [alt]="pairInfo.tokenSymbol + ' logo'"
+      width="18"
+      height="18"
+      class="logo"
+    />
+    <div class="name">{{ pairInfo.tokenSymbol }}</div>
+
+    <a
+      nz-button
+      nzType="primary"
+      class="mobiletrade"
+      nzDanger
+      [href]="
+        'https://exchange.pancakeswap.finance/#/swap?outputCurrency=' +
+        pairInfo.tokenId +
+        '&inputCurrency=BNB'
+      "
+      target="_blank"
+    >
+      Trade
+    </a>
+  </div>
+  <div class="icons-list">
+    <a
+      [href]="'https://bscscan.com/address/' + pairInfo.tokenId"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/bscscan.png"
+        class="bscscan"
+        alt="Bscscan link"
+        width="18"
+        height="18"
+    /></a>
+    <a
+      *ngIf="this.geckoInfo"
+      class="coingecko"
+      [href]="'https://www.coingecko.com/en/coins/' + this.geckoInfo.id"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/coingecko.png"
+        alt="coingecko link"
+        width="18"
+        height="18"
+    /></a>
+    <a
+      *ngIf="this.geckoInfo && this.geckoInfo.twitter_handle"
+      class="coingecko"
+      [href]="'https://twitter.com/' + this.geckoInfo.twitter_handle"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/twitter.webp"
+        alt="twitter link"
+        width="20"
+        height="20"
+    /></a>
+    <a
+      *ngIf="this.geckoInfo && this.geckoInfo.homepage"
+      class="coingecko"
+      [href]="this.geckoInfo.homepage"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/web.png"
+        alt="homepage link"
+        width="20"
+        height="20"
+    /></a>
+    <a
+      *ngIf="this.geckoInfo && this.geckoInfo.discord_link"
+      class="coingecko"
+      [href]="this.geckoInfo.discord_link"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/discord.png"
+        alt="discord link"
+        width="20"
+        height="20"
+    /></a>
+    <a
+      *ngIf="this.geckoInfo && this.geckoInfo.telegram_channel_identifier"
+      class="coingecko"
+      [href]="'https://t.me/' + this.geckoInfo.telegram_channel_identifier"
+      target="_blank"
+    >
+      <img
+        src="/assets/images/telegram.png"
+        alt="telegram link"
+        width="20"
+        height="20"
+    /></a>
+  </div>
+</div>
+<hr size="1" />
+<p
+  class="priceUSD"
+  [class]="
+    this.geckoInfo
+      ? this.geckoInfo.price_change_percentage_24h > 0
+        ? 'buy'
+        : 'sell'
+      : pairInfo.lastType
+  "
+>
+  {{ pairInfo.priceInUSD | currency: "USD":"symbol":"1.4-4" }}
+  <span *ngIf="this.geckoInfo && this.geckoInfo.price_change_percentage_24h">
+    {{ geckoInfo.price_change_percentage_24h | number: "1.0-2" }} %</span
+  >
+</p>
+<p
+  class="priceETH"
+  [class]="
+    this.geckoInfo
+      ? this.geckoInfo.price_change_percentage_24h > 0
+        ? 'buy'
+        : 'sell'
+      : pairInfo.lastType
+  "
+>
+  {{ pairInfo.priceInQuote | number: "1.8-8" }} BNB
+</p>
+<p>
+  <label>Total Liquidity: </label
+  >{{ totalLiquidity * 2 | currency: "USD":"symbol":"1.0-0" }}
+</p>
+<p>
+  <label>24H Volume: </label
+  >{{ pairInfo.volumeUSD | currency: "USD":"symbol":"1.0-0" }}
+</p>
+<p>
+  <label>Pooled {{ pairInfo.quoteSymbol }}: </label>
+  {{ pairInfo.reserveQuoteToken | number: "1.0-0" }}
+</p>
+<p>
+  <label>Pooled {{ pairInfo.tokenSymbol }}: </label
+  >{{ pairInfo.reserveToken | number: "1.0-0" }}
+</p>
+<p><label>24H Tx: </label>{{ pairInfo.txCount }}</p>
+<p *ngIf="this.geckoInfo && this.geckoInfo.market_cap_usd > 0">
+  <label>Market Cap: </label>
+  {{ geckoInfo.market_cap_usd | currency: "USD":"symbol":"1.0-0" }}
+</p>
+<p *ngIf="this.geckoInfo && this.geckoInfo.circulating_supply > 0">
+  <label>Circ. Supply: </label>
+  {{ geckoInfo.circulating_supply | number: "1.0-0" }} /
+  {{ geckoInfo.total_supply | number: "1.0-0" }}
+</p>
+<hr size="1" />
+<div style="font-size: 10px; font-weight: none">
+  <span title="Contract ID">Contract {{ pairInfo.id }}</span>
+</div>

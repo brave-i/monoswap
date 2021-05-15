@@ -1,0 +1,73 @@
+<nz-table
+  #filterTable
+  [nzData]="hotpairs$ | async"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzPageSize]="50"
+>
+  <thead>
+    <tr>
+      <th
+        [nzSortOrder]="listOfColumns[0].sortOrder"
+        [nzSortFn]="listOfColumns[0].sortFn"
+        [nzSortDirections]="listOfColumns[0].sortDirections"
+        [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+        [nzFilters]="listOfColumns[0].listOfFilter"
+        [nzFilterFn]="listOfColumns[0].filterFn"
+      >
+        {{ listOfColumns[0].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter"
+        [nzFilterFn]="listOfColumns[1].filterFn"
+      >
+        {{ listOfColumns[1].name }}
+      </th>
+      <th
+        [nzSortOrder]="listOfColumns[1].sortOrder"
+        [nzSortFn]="listOfColumns[1].sortFn"
+        [nzSortDirections]="listOfColumns[1].sortDirections"
+        [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+        [nzFilters]="listOfColumns[1].listOfFilter"
+        [nzFilterFn]="listOfColumns[1].filterFn"
+      >
+        {{ listOfColumns[2].name }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let data of filterTable.data; let i = index"
+      [attr.data-index]="i"
+    >
+      <td>
+        {{ i + 1 }}
+      </td>
+      <td>
+        <a [routerLink]="'/pair-explorer/' + data._id" class="actions">
+          {{ data.symbol }}
+        </a>
+        <span class="new" *ngIf="isNew(data.creationDate)">
+          <nz-tag [nzColor]="'green'"> NEW </nz-tag>
+        </span>
+      </td>
+      <td>
+        <a [routerLink]="'/pair-explorer/' + data._id" class="actions">
+          {{ data.tokenName }}
+        </a>
+      </td>
+      <!-- <td>
+        {{ data.currentPrice | number: "1.0-8" }}
+      </td>
+       <td>
+        <ng-container *ngIf="data.accountInfoSee != null && isAuth">  <ng-container *ngIf="data.currentPrice != null"><nz-tag [nzColor]="getPriceChange(data) > 0 ? 'green' : 'red'">
+          {{ getPriceChange(data) | number: "1.0-2" }} %
+        </nz-tag></ng-container></ng-container>
+      </td> -->
+    </tr>
+  </tbody>
+</nz-table>

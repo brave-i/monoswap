@@ -1,0 +1,238 @@
+<nz-table
+  #filterTable
+  [nzData]="currentPairs$ | async"
+  nzSize="small"
+  nzTableLayout="auto"
+  [nzPageSize]="50"
+>
+  <thead>
+  <tr>
+    <th
+      [nzSortOrder]="listOfColumns[0].sortOrder"
+      [nzSortFn]="listOfColumns[0].sortFn"
+      [nzSortDirections]="listOfColumns[0].sortDirections"
+      [nzFilterMultiple]="listOfColumns[0].filterMultiple"
+      [nzFilters]="listOfColumns[0].listOfFilter"
+      [nzFilterFn]="listOfColumns[0].filterFn"
+    >
+      {{ listOfColumns[0].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[1].sortOrder"
+      [nzSortFn]="listOfColumns[1].sortFn"
+      [nzSortDirections]="listOfColumns[1].sortDirections"
+      [nzFilterMultiple]="listOfColumns[1].filterMultiple"
+      [nzFilters]="listOfColumns[1].listOfFilter"
+      [nzFilterFn]="listOfColumns[1].filterFn"
+    >
+      {{ listOfColumns[1].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[2].sortOrder"
+      [nzSortFn]="listOfColumns[2].sortFn"
+      [nzSortDirections]="listOfColumns[2].sortDirections"
+      [nzFilterMultiple]="listOfColumns[2].filterMultiple"
+      [nzFilters]="listOfColumns[2].listOfFilter"
+      [nzFilterFn]="listOfColumns[2].filterFn"
+    >
+      {{ listOfColumns[2].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[3].sortOrder"
+      [nzSortFn]="listOfColumns[3].sortFn"
+      [nzSortDirections]="listOfColumns[3].sortDirections"
+      [nzFilterMultiple]="listOfColumns[3].filterMultiple"
+      [nzFilters]="listOfColumns[3].listOfFilter"
+      [nzFilterFn]="listOfColumns[3].filterFn"
+    >
+      {{ listOfColumns[3].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[4].sortOrder"
+      [nzSortFn]="listOfColumns[4].sortFn"
+      [nzSortDirections]="listOfColumns[4].sortDirections"
+      [nzFilterMultiple]="listOfColumns[4].filterMultiple"
+      [nzFilters]="listOfColumns[4].listOfFilter"
+      [nzFilterFn]="listOfColumns[4].filterFn"
+    >
+      {{ listOfColumns[4].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[5].sortOrder"
+      [nzSortFn]="listOfColumns[5].sortFn"
+      [nzSortDirections]="listOfColumns[5].sortDirections"
+      [nzFilterMultiple]="listOfColumns[5].filterMultiple"
+      [nzFilters]="listOfColumns[5].listOfFilter"
+      [nzFilterFn]="listOfColumns[5].filterFn"
+      nzCustomFilter
+    >
+      {{ listOfColumns[5].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[6].sortOrder"
+      [nzSortFn]="listOfColumns[6].sortFn"
+      [nzSortDirections]="listOfColumns[6].sortDirections"
+      [nzFilterMultiple]="listOfColumns[6].filterMultiple"
+      [nzFilters]="listOfColumns[6].listOfFilter"
+      [nzFilterFn]="listOfColumns[6].filterFn"
+      nzCustomFilter
+    >
+      {{ listOfColumns[6].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[7].sortOrder"
+      [nzSortFn]="listOfColumns[7].sortFn"
+      [nzSortDirections]="listOfColumns[7].sortDirections"
+      [nzFilterMultiple]="listOfColumns[7].filterMultiple"
+      [nzFilters]="listOfColumns[7].listOfFilter"
+      [nzFilterFn]="listOfColumns[7].filterFn"
+      nzCustomFilter
+    >
+      {{ listOfColumns[7].name }}
+    </th>
+    <th
+      [nzSortOrder]="listOfColumns[8].sortOrder"
+      [nzSortFn]="listOfColumns[8].sortFn"
+      [nzSortDirections]="listOfColumns[8].sortDirections"
+      [nzFilterMultiple]="listOfColumns[8].filterMultiple"
+      [nzFilters]="listOfColumns[8].listOfFilter"
+      [nzFilterFn]="listOfColumns[8].filterFn"
+      nzCustomFilter
+    >
+      {{ listOfColumns[8].name }}
+    </th>
+<!--    <th-->
+<!--      [nzSortOrder]="listOfColumns[9].sortOrder"-->
+<!--      [nzSortFn]="listOfColumns[9].sortFn"-->
+<!--      [nzSortDirections]="listOfColumns[9].sortDirections"-->
+<!--      [nzFilterMultiple]="listOfColumns[9].filterMultiple"-->
+<!--      [nzFilters]="listOfColumns[9].listOfFilter"-->
+<!--      [nzFilterFn]="listOfColumns[9].filterFn"-->
+<!--      nzCustomFilter-->
+<!--    >-->
+<!--      {{ listOfColumns[9].name }}-->
+<!--    </th>-->
+    <!-- <th
+      [nzSortOrder]="listOfColumns[10].sortOrder"
+      [nzSortFn]="listOfColumns[10].sortFn"
+      [nzSortDirections]="listOfColumns[10].sortDirections"
+      [nzFilterMultiple]="listOfColumns[10].filterMultiple"
+      [nzFilters]="listOfColumns[10].listOfFilter"
+      [nzFilterFn]="listOfColumns[10].filterFn"
+      nzCustomFilter
+    >
+      {{ listOfColumns[10].name }}
+    </th> -->
+  </tr>
+  </thead>
+  <tbody>
+  <tr
+    *ngFor="let data of filterTable.data; trackBy: identify"
+    [class]="+data.currentInfos.currentPoolEth > 0.1 ? '' : 'rugged'"
+    [id]="data.currentInfos.currentPoolEth"
+  >
+    <td>
+      {{ formatDate(data.createdAtTimestamp) | amTimeAgo }}
+    </td>
+    <td>
+      <a
+        [routerLink]="'/pancake-pair-explorer/' + data.idPair"
+        target="_blank"
+        class="actions"
+      >
+        {{ data.tokenName }}
+      </a>
+    </td>
+    <td>
+      {{ data.initialInfos.initialPriceUSD | number: "1.0-8" }}
+      <br />
+      {{ data.currentInfos.currentPriceUSD | number: "1.0-8" }}
+    </td>
+    <!-- <td>
+      {{ data.InitialPoolToken | number: "1.0-0" }} {{ data.NameToken }}
+      <br />
+      {{ data.CurrentPoolToken | number: "1.0-0" }} {{ data.NameToken }}
+    </td> -->
+    <td>
+      {{ data.initialInfos.initialPoolEth | number: "1.0-2" }} ETH
+      <br />
+      {{ data.currentInfos.currentPoolEth | number: "1.0-2" }} ETH
+    </td>
+    <td>
+      ${{ data.initialInfos.initialMarketCap | number: "1.0-0" }}
+      <br />
+      ${{ data.currentInfos.currentMarketCap | number: "1.0-0" }}
+    </td>
+    <td>
+      {{ data.txCount }}
+    </td>
+    <td>
+      <nz-tag [nzColor]="getPriceChange(data) > 0 ? 'green' : 'red'">
+        {{ getPriceChange(data) | number: "1.0-2" }} %
+      </nz-tag>
+    </td>
+<!--    <td>-->
+<!--      {{ data.holderCountOld ? data.holderCountOld + " → " : "" }}-->
+<!--      {{ data.holderCount }}-->
+<!--    </td>-->
+    <td>
+      <a
+        nz-button
+        nzType="primary"
+        class="trade"
+        [routerLink]="'/pancake-pair-explorer/' + data.idPair"
+        target="_blank"
+      >
+        Trade
+      </a>
+      <a
+        class="actions"
+        [href]="'https://unicrypt.network/amm/pancake/token/' + data.idToken"
+        target="_blank"
+      >
+        <img
+          src="/assets/images/unicrypt.svg"
+          nz-tooltip
+          nzTooltipTitle="Unicrypt: Locked initial liquidity reduces chances of rug pulls or exit scams"
+          alt="unicrypt link"
+          width="20"
+          height="20"
+        /></a>
+    </td>
+    <td>
+      <a
+        [href]="'https://bscscan.com/token/' + data.idToken"
+        nz-tooltip
+        [nzTooltipTitle]="
+            data.contractVerified
+              ? 'Verified contract: Ensures deployed contract code matches source code, but does not rule out scams'
+              : 'Bytecode contract: Uncompiled code increases risk of scams, including prevention of selling'
+          "
+        target="_blank"
+      >
+        <img
+          [src]="
+              data.contractVerified
+                ? '/assets/images/verified.jpg'
+                : '/assets/images/not-verified.png'
+            "
+          alt="Contract verification"
+          width="20"
+          height="20"
+        />
+      </a>
+      <img
+        *ngIf="data.isCodeGenerator"
+        nz-tooltip
+        nzTooltipTitle="Code generator: Used a turnkey token creation tool with likely little to no actual function"
+        class="actions"
+        src="/assets/images/warning.png"
+        alt="Contract is from code generator"
+        width="20"
+        height="20"
+      />
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
